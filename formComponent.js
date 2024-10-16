@@ -1,3 +1,7 @@
+/*
+    formComponent - Simone Cecire
+*/
+
 const generateReservationForm = (parentElement) => {
     let configuration;
     let callback;
