@@ -22,9 +22,13 @@ const generateReservationForm = (parentElement) => {
             const submitButton = document.querySelector("#submitButton");
             
             submitButton.onclick = () => {
-                const reservationValues = configuration.map(e => document.querySelector("#" + e).value);
-                console.log(reservationValues)
-                callback(reservationValues);
+                const reservation = {"data": document.querySelector("#dateInput").value};
+                
+                Object.keys(configuration).map(e => {
+                    reservation[e] = parseInt(document.querySelector("#" + e).value);
+                });
+                
+                callback(reservation);
             };
         }
     };
