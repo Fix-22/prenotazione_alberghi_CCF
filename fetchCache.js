@@ -1,3 +1,7 @@
+/*
+    fetchCache - Simone Cecire
+*/
+
 const fetchCache = (token, method, data) => { // promise che esegue sia set che get su cache remota
     return new Promise((resolve, reject) => {
         fetch("https://ws.cipiaceinfo.it/cache/" + method, {
