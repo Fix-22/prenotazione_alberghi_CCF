@@ -26,9 +26,10 @@ const generateReservationForm = (parentElement) => {
             const submitButton = document.querySelector("#submitButton");
             
             submitButton.onclick = () => {
+                // struttura dati con i valori della form
                 const reservation = {"data": document.querySelector("#dateInput").value};
                 
-                Object.keys(configuration).map(e => {
+                Object.keys(configuration).map(e => { // aggiunge alla struttura il valore di ogni input e il corrispettivo nome
                     reservation[e] = parseInt(document.querySelector("#" + e).value);
                 });
                 
