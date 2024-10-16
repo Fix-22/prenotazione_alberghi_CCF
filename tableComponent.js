@@ -1,0 +1,3 @@
+const generateReservationTable = (parentElement) => {
+
+};

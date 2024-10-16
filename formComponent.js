@@ -1,3 +1,3 @@
-const generateReservationForm = () => {
+const generateReservationForm = (parentElement) => {
 
 };
