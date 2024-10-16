@@ -10,10 +10,10 @@ const generateReservationForm = (parentElement) => {
             callback = inputCallback;
         },
         render: () => {
-            let html = '<form id="reservationForm" class="container"><label>Data</label><input type="date" id="dateInput">';
+            let html = '<form id="reservationForm" class="container"><label>Data</label><input type="date" id="dateInput" class="form-control">';
             
-            html += Object.keys(configuration).map(e => '<label>' + e.substring(0, 1).toUpperCase() + e.substring(1, e.length) + '</label>' + '<input type="number" id="' + e + '">').join("") 
-                    + '<button type="button" id="submitButton">Invia</button>'
+            html += Object.keys(configuration).map(e => '<label>' + e.substring(0, 1).toUpperCase() + e.substring(1, e.length) + '</label>' + '<input class="form-control" type="number" id="' + e + '">').join("") 
+                    + '<button type="button" id="submitButton" class="btn btn-primary">Invia</button>'
                     + '<label id="resultLabel"></label>'
                     + '</form>';
             
