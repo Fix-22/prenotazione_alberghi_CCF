@@ -7,7 +7,7 @@ const generateReservationForm = (parentElement) => {
             configuration = inputConfiguration;
         },
         onsubmit: (inputCallback) => {
-
+            callback = inputCallback;
         },
         render: () => {
             let html = '<form id="reservationForm" class="container"><label>Data</label><input type="date" id="dateInput">';
@@ -18,6 +18,14 @@ const generateReservationForm = (parentElement) => {
                     + '</form>';
             
             parentElement.innerHTML = html;
+
+            const submitButton = document.querySelector("#submitButton");
+            
+            submitButton.onclick = () => {
+                const reservationValues = configuration.map(e => document.querySelector("#" + e).value);
+                console.log(reservationValues)
+                callback(reservationValues);
+            };
         }
     };
 };
