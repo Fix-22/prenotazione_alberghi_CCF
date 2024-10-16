@@ -8,4 +8,5 @@ const conf = {
 
 const reservationForm = generateReservationForm(formContainer);
 reservationForm.build(conf);
+reservationForm.onsubmit(reservation => console.log(reservation));
 reservationForm.render();
