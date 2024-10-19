@@ -9,24 +9,46 @@ const conf = {
 
 const testData = [
     {
-        "data": "10/3/2024",
+        "data": "",
         "singola": 10,
         "doppia": 5,
         "suite": 3
     },
     {
-        "data": "23/3/2028",
+        "data": "",
         "singola": 10,
         "doppia": 3,
         "suite": 2
     },
     {
-        "data": "31/12/2020",
+        "data": "",
         "singola": 5,
         "doppia": 2,
         "suite": 1
     },
 ]
+
+const testConfig = [
+    {
+        "data": "",
+        "singola": 12,
+        "doppia": 32,
+        "suite": 3
+    },
+    {
+        "data": "",
+        "singola": 14,
+        "doppia": 3,
+        "suite": 123
+    },
+    {
+        "data": "",
+        "singola": 621,
+        "doppia": 43,
+        "suite": 1
+    },
+]
+
 
 const reservationForm = generateReservationForm(formContainer);
 reservationForm.build(conf);
@@ -35,5 +57,6 @@ reservationForm.render();
 
 const reservationTable = generateReservationTable(tableContainer);
 reservationTable.build(conf);
-reservationTable.updateData(testData);
+reservationTable.overrideData(testData);
+reservationTable.updateData(testConfig);
 reservationTable.render();
