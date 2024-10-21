@@ -38,16 +38,17 @@ const fetchComponent = (configuration) => {
         add: function(reservation, conf) {
             headers = Object.keys(reservation);
             let check = [];
-            for (let i = 0; i < headers.length; i++) {
+            for (let i = 1; i < headers.length; i++) {
                 if (reservation[headers[i]] <= conf[headers[i]]) {
                     check.push(true);
                 } else {
                     check.push(false);
-                }
+                }   
             }
+            console.log(check);
             let ok = true;
             for(let k = 0; k < check.length; k++) {
-                if (!check[k]) {
+                if (check[k] == false) {
                     ok = false;
                 }
             }
