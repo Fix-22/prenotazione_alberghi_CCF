@@ -49,31 +49,21 @@ const testConfig = [
     },
 ]
 
-
-const reservationForm = generateReservationForm(formContainer);
-reservationForm.build(conf);
-reservationForm.onsubmit(reservation => {
-    console.log("reservation\n" + JSON.stringify(reservation)) ;
-    componenteFetch.add(reservation) ;
-
-    reservationTable.overrideData(componenteFetch.getAll()) ;
-    //reservationTable.updateData(testConfig);
-    //reservationTable.updateData(conf);
-    reservationTable.render();
-});
-reservationForm.render();
-
-
-
 const componenteFetch = fetchComponent(conf) ;
 const reservationTable = generateReservationTable(tableContainer);
+const reservationForm = generateReservationForm(formContainer);
+
 reservationTable.build(conf);
+reservationForm.build(conf);
+componenteFetch.build(reservationTable);
 
-componenteFetch.build(reservationTable) ;
+reservationForm.onsubmit(reservation => {
+    console.log("reservation\n" + JSON.stringify(reservation)) ;
+    componenteFetch.add(reservation, conf) ;
+    reservationTable.updateData(componenteFetch.getAll());
+    reservationTable.render();
+});
 
-
-//reservationTable.overrideData(testData);
-//reservationTable.overrideData(componenteFetch.getAll()) ;
-//reservationTable.updateData(testConfig);
-//reservationTable.updateData(conf);
+reservationForm.render();
+reservationTable.updateData(componenteFetch.getAll());
 reservationTable.render();
