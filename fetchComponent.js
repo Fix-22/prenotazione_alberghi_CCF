@@ -57,7 +57,7 @@ const fetchComponent = (configuration) => {
                 set(cacheKey, data);
                 return;
             }
-            console.log("Error");
+            console.log("Errore");
             return -1;
         },
         build: function(table) {
