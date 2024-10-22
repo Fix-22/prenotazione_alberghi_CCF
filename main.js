@@ -20,9 +20,13 @@ reservationTable.setData({})
 reservationForm.onsubmit(reservation => {
     console.log(reservation)
     if (reservationTable.add(reservation)) {
+        reservationForm.setStatus(true);
         reservationTable.setData(reservationTable.getData())
         reservationTable.render();
         fetchComponent.setData("CCF", reservationTable.getData()).then(d => console.log(d));
+    }
+    else {
+        reservationForm.setStatus(false);
     }
 });
 
