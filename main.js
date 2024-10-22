@@ -18,7 +18,6 @@ fetchComponent.build("3d5d7cd6-d187-401b-9142-a6167ea6a150");
 reservationTable.setData({})
 
 reservationForm.onsubmit(reservation => {
-    console.log(reservation)
     if (reservationTable.add(reservation)) {
         reservationForm.setStatus(true);
         reservationTable.setData(reservationTable.getData())
