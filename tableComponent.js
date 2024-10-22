@@ -42,7 +42,6 @@ const generateReservationTable = (parentElement) => {
                     console.log(data[i]);
                     console.log(newConfig[j]);
                     */
-
                     if (data[i].data == newConfig[j].data) {
                         let check = [];
                         for (let k = 0; k < headers.length; k++) {
