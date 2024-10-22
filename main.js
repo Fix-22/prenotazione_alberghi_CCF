@@ -7,63 +7,27 @@ const conf = {
     "suite": 3
 }
 
-const testData = [
-    {
-        "data": "",
-        "singola": 10,
-        "doppia": 5,
-        "suite": 3
-    },
-    {
-        "data": "",
-        "singola": 10,
-        "doppia": 3,
-        "suite": 2
-    },
-    {
-        "data": "",
-        "singola": 5,
-        "doppia": 2,
-        "suite": 1
-    },
-]
-
-const testConfig = [
-    {
-        "data": "",
-        "singola": 12,
-        "doppia": 32,
-        "suite": 3
-    },
-    {
-        "data": "",
-        "singola": 14,
-        "doppia": 3,
-        "suite": 123
-    },
-    {
-        "data": "",
-        "singola": 621,
-        "doppia": 43,
-        "suite": 1
-    },
-]
-
-const componenteFetch = fetchComponent(conf) ;
 const reservationTable = generateReservationTable(tableContainer);
 const reservationForm = generateReservationForm(formContainer);
+const fetchComponent = generateFetchComponent();
 
 reservationTable.build(conf);
 reservationForm.build(conf);
-componenteFetch.build(reservationTable);
+fetchComponent.build("3d5d7cd6-d187-401b-9142-a6167ea6a150");
+
+reservationTable.setData({})
 
 reservationForm.onsubmit(reservation => {
-    console.log("reservation\n" + JSON.stringify(reservation)) ;
-    componenteFetch.add(reservation, conf) ;
-    reservationTable.updateData(componenteFetch.getAll());
-    reservationTable.render();
+    console.log(reservation)
+    if (reservationTable.add(reservation)) {
+        reservationTable.setData(reservationTable.getData())
+        reservationTable.render();
+        fetchComponent.setData("CCF", reservationTable.getData()).then(d => console.log(d));
+    }
 });
 
 reservationForm.render();
-reservationTable.updateData(componenteFetch.getAll());
-reservationTable.render();
+fetchComponent.getData("CCF").then(d => {
+    reservationTable.setData(JSON.parse(d))
+    reservationTable.render();
+});

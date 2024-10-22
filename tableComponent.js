@@ -1,96 +1,71 @@
 const generateReservationTable = (parentElement) => {
     let configuration;
-    //Generate data array
-    let data = [{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}];
+    let data = {};
+    let dataMonth = {};
 
     return {
         build: (inputConfiguration) => {
             configuration = inputConfiguration;
-            let today = new Date(Date.now());
-            for (let i = 0; i < 30; i++) {
-                if (i != 0) {
-                    today.setDate(today.getDate() + 1)
-                }
-                //Modifico la stringa
-                let hold = today.toLocaleDateString().split("/");
-                data[i].data = hold[2] + "-" + hold[0] + "-" +hold[1];
-                let headers = Object.keys(configuration);
-                for (let j = 0; j < headers.length; j++) {
-                    data[i][headers[j]] = configuration[headers[j]];
-                }
-            }today.toLocaleDateString().replaceAll("/","-");
         },
-        overrideData: (newData) => {
-            data = newData;
+        render: () => {
+            let html = '<table class="table"><thead><td>Data</td>';
+            html += Object.keys(configuration).map(e => '<td>' + e.substring(0, 1).toUpperCase() + e.substring(1, e.length)).join("")
+                    + '</thead>';
+            
+            Object.keys(dataMonth).forEach(k => {
+                html += '<tr>' + '<td>' + k + '</td>' + Object.values(dataMonth[k]).map(v => '<td>' + v + '</td>').join("") + '</tr>';
+            });
+            parentElement.innerHTML = html;
         },
-        updateData: (newConfig) => {
-            let today = new Date(Date.now());
-            for (let i = 0; i < data.length; i++) {
-                //console.log(data[i]);
-                if (i != 0) {
-                    today.setDate(today.getDate() + 1)
-                }
-                let headers = Object.keys(configuration);
-                for (let j = 0; j < newConfig.length; j++) {
-                    //console.log(data[i].data + " " + newConfig[j].data);
-                    /*
-                    console.log(data[i]);
-                    console.log(newConfig[j]);
-                    console.log("-----------------------------");
-                    console.log(parseInt(data[i][headers[k]]) + " - " + parseInt(newConfig[j][headers[k]]) + " = " + parseInt(data[i][headers[k]]-newConfig[j][headers[k]]));
-                    console.log("-----------------------------");
-                    console.log(data[i]);
-                    console.log(newConfig[j]);
-                    */
+        getData: () => {
+            return data;
+        },
+        setData: (inputData) => {
+            data = inputData;
 
-                    if (data[i].data == newConfig[j].data) {
-                        let check = [];
-                        for (let k = 0; k < headers.length; k++) {
-                            if (parseInt(data[i][headers[k]]) - parseInt(newConfig[j][headers[k]]) >= 0) {
-                                check.push(true);
-                            } else {
-                                check.push(false);
-                            }
-                        }
-                        let ok = true;
-                        for(let k = 0; k < check.length; k++) {
-                            if (!check[k]) {
-                                ok = false;
-                            }
-                        }
-                        if (ok) {
-                            for (let k = 0; k < headers.length; k++) {
-                                if (parseInt(data[i][headers[k]]) - parseInt(newConfig[j][headers[k]]) >= 0) {
-                                    data[i][headers[k]] = parseInt(data[i][headers[k]])-parseInt(newConfig[j][headers[k]]);
-                                } else {
-                                    continue;
-                                }
-                            }
-                        }
-                        
+            let newDate = new Date(Date.now());
+
+            for (let i = 0; i < 30; i++) {
+                let formattedDate = newDate.getFullYear() + "-" + (newDate.getMonth() + 1) + "-" + newDate.getDate();
+
+                if (data[formattedDate]) {
+                    dataMonth[formattedDate] = data[formattedDate];
+                }
+                else {
+                    dataMonth[formattedDate] = configuration;
+                }
+
+                newDate.setDate(newDate.getDate() + 1);
+            }
+        },
+        add: (reservation) => {
+            const date = reservation["data"];
+            const keys = Object.keys(reservation);
+            let newAvailability = {};
+
+            if (data[date]) {
+                for (let i = 1; i < keys.length; i++) {
+                    if (data[date][keys[i]] - reservation[keys[i]] >= 0) {
+                        newAvailability[keys[i]] = data[date][keys[i]] - reservation[keys[i]];
+                    }
+                    else {
+                        return false;
                     }
                 }
             }
-        },
-        render: () => {
-            let htmlTable = "<table class='table'><tr>";
-            //Headers
-            let headers = Object.keys(configuration);
-            headers.unshift("data");
-            for (let i = 0; i < headers.length; i++) {
-                htmlTable += "<th>" + headers[i] + "</th>"
-            }
-            htmlTable += "</tr>"
-            //Body
-            data.map((current) => {
-                
-                htmlTable += "<tr>"
-                for (let i = 0; i < headers.length; i++) {
-                    htmlTable += "<td>" + current[headers[i]]+ "</td>";
+            else {
+                for (let i = 1; i < keys.length; i++) {
+                    if (configuration[keys[i]] - reservation[keys[i]] >= 0) {
+                        newAvailability[keys[i]] = configuration[keys[i]] - reservation[keys[i]];
+                    }
+                    else {
+                        return false;
+                    }
                 }
-                htmlTable += "</tr>"
-            });
-            parentElement.innerHTML = htmlTable;
-        },
-    }
+            }
+
+            data[date] = newAvailability;
+            return true;
+        }
+    };
 };
