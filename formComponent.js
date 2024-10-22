@@ -23,7 +23,8 @@ const generateReservationForm = (parentElement) => {
             
             submitButton.onclick = () => {
                 // struttura dati con i valori della form
-                const reservation = {"data": document.querySelector("#dateInput").value};
+                let dateValSplit = document.querySelector("#dateInput").value.split("-");
+                const reservation = {"data": dateValSplit[0] + "-" + parseInt(dateValSplit[1]) + "-" + parseInt(dateValSplit[2])};
                 
                 Object.keys(configuration).map(e => { // aggiunge alla struttura il valore di ogni input e il corrispettivo nome
                     reservation[e] = parseInt(document.querySelector("#" + e).value) >= 0 ? parseInt(document.querySelector("#" + e).value) : NaN;
@@ -39,6 +40,9 @@ const generateReservationForm = (parentElement) => {
             else {
                 document.getElementById("resultLabel").innerText = "KO";
             }
+        },
+        clear: () => {
+            document.querySelectorAll(".form-control").forEach(e => e.value = "");
         }
     };
 };
