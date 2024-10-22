@@ -1,6 +1,8 @@
 const generateReservationTable = (parentElement) => {
     let configuration;
+    //Dati effettivi della cache.
     let data = {};
+    //Dati del mese
     let dataMonth = {};
 
     return {
@@ -9,12 +11,14 @@ const generateReservationTable = (parentElement) => {
         },
         render: () => {
             let html = '<table class="table"><thead><td>Data</td>';
-            html += Object.keys(configuration).map(e => '<td>' + e.substring(0, 1).toUpperCase() + e.substring(1, e.length)).join("")
+            //Headers della tabella
+            html += Object.keys(configuration).map(element => '<td>' + element.substring(0, 1).toUpperCase() + element.substring(1, element.length)).join("")
                     + '</thead>';
-            
+            //Dati della tabella
             Object.keys(dataMonth).forEach(k => {
                 html += '<tr>' + '<td>' + k + '</td>' + Object.values(dataMonth[k]).map(v => '<td>' + v + '</td>').join("") + '</tr>';
             });
+            //Applichiamo le modifiche
             parentElement.innerHTML = html;
         },
         getData: () => {
@@ -26,12 +30,13 @@ const generateReservationTable = (parentElement) => {
             let newDate = new Date(Date.now());
 
             for (let i = 0; i < 30; i++) {
+                //Format Date
                 let formattedDate = newDate.getFullYear() + "-" + (newDate.getMonth() + 1) + "-" + newDate.getDate();
-
-                if (data[formattedDate]) {
+                
+                if (data[formattedDate]) { //Se la data Esiste
                     dataMonth[formattedDate] = data[formattedDate];
                 }
-                else {
+                else { //Se non Esiste
                     dataMonth[formattedDate] = configuration;
                 }
 
@@ -43,9 +48,9 @@ const generateReservationTable = (parentElement) => {
             const keys = Object.keys(reservation);
             let newAvailability = {};
 
-            if (data[date]) {
+            if (data[date]) { //Se è presente la data, sottraggo in base alla data presente
                 for (let i = 1; i < keys.length; i++) {
-                    if (data[date][keys[i]] - reservation[keys[i]] >= 0) {
+                    if (data[date][keys[i]] - reservation[keys[i]] >= 0) { 
                         newAvailability[keys[i]] = data[date][keys[i]] - reservation[keys[i]];
                     }
                     else {
@@ -53,7 +58,7 @@ const generateReservationTable = (parentElement) => {
                     }
                 }
             }
-            else {
+            else { //Altrimenti sottraggo dalla configurazione direttamente
                 for (let i = 1; i < keys.length; i++) {
                     if (configuration[keys[i]] - reservation[keys[i]] >= 0) {
                         newAvailability[keys[i]] = configuration[keys[i]] - reservation[keys[i]];
