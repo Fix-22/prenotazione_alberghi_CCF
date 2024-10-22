@@ -1,7 +1,3 @@
-/*
-    formComponent - Simone Cecire
-*/
-
 const generateReservationForm = (parentElement) => {
     let configuration;
     let callback;
@@ -30,11 +26,19 @@ const generateReservationForm = (parentElement) => {
                 const reservation = {"data": document.querySelector("#dateInput").value};
                 
                 Object.keys(configuration).map(e => { // aggiunge alla struttura il valore di ogni input e il corrispettivo nome
-                    reservation[e] = parseInt(document.querySelector("#" + e).value);
+                    reservation[e] = parseInt(document.querySelector("#" + e).value) >= 0 ? parseInt(document.querySelector("#" + e).value) : NaN;
                 });
                 
                 callback(reservation);
             };
+        },
+        setStatus: (status) => {
+            if (status) {
+                document.getElementById("resultLabel").innerText = "OK";
+            }
+            else {
+                document.getElementById("resultLabel").innerText = "KO";
+            }
         }
     };
 };
